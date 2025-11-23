@@ -298,8 +298,22 @@ unofficialACBapi/
 - Real banking operations should always use official, secure channels
 - Implement proper authentication and authorization in production
 - Use HTTPS in production environments
-- Implement rate limiting and request validation
+- Rate limiting is implemented (100 requests per 15 minutes per IP)
+- Request size limits are set to prevent DoS attacks (10MB)
+- CORS can be configured via environment variables
 - Keep dependencies up to date
+
+### Rate Limiting
+
+The API implements rate limiting to prevent abuse:
+- **Limit**: 100 requests per IP address
+- **Window**: 15 minutes
+- **Response Headers**: 
+  - `RateLimit-Limit`: Maximum number of requests allowed
+  - `RateLimit-Remaining`: Number of requests remaining
+  - `RateLimit-Reset`: Seconds until the rate limit resets
+
+When rate limit is exceeded, the API returns a `429 Too Many Requests` status with an error message.
 
 ## 🤝 Contributing
 
